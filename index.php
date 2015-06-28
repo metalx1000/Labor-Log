@@ -32,10 +32,17 @@
         var date = new Date(entry)
         var time = date.getTime();
         var diff = (time - last) / 1000;
+        if(last == 0){
+          var minutes = "First Entry";
+        }else{
+          var minutes = Math.round(diff / 60);
+        }
         last = time;
-        console.log(diff);
-        $("#log_table").append("<tr><td>Contraction Logged</td><td>"+
-          entry+"</td>"+
+        
+        $("#log_table").append("<tr><td>"+
+          //Contraction Logged</td><td>"+
+          entry+"</td><td>"+
+          minutes+"</td><td>"+
           "</tr>");
       });
     }
@@ -49,11 +56,17 @@
   <button id="add_btn" type="button" class="btn btn-primary btn-block btn-lg">Add Contraction Time</button>
   <table class="table table-striped">
     <thead>
-      <tr><th>Labor Log</th></tr>
+      <tr>
+        <!--<th>Labor Log</th>-->
+        <th>Time of Contractions</th>
+        <th>Minutes Since Last</th>
+      </tr>
     </thead>
     <tbody id="log_table">
     </tbody>
   </table>
+  <hr>
+  <p>Time since last contraction is rounded to nearest minute</p>            
 </div>
 
 </body>
