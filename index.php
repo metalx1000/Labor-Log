@@ -9,6 +9,8 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script>
     var log;
+    var removeIndex;
+
     $(document).ready(function(){
       if(localStorage.labor){
         log = JSON.parse(localStorage['labor']);
@@ -19,55 +21,55 @@
       $("#add_btn").click(function(){
         log.push(Date());
         localStorage['labor'] = JSON.stringify(log);
-        update();
+        location.reload();
+        //update();
       });
 
       update();
+
+      function update(){
+        var last = 0;
+        $("#log_table").html("");
+        for(var i=0;i<log.length;i++){
+          var entry = log[i];
+          var date = new Date(entry);
+          var time = date.getTime();
+          var diff = (time - last) / 1000;
+          if(last == 0){
+            var minutes = "First Entry";
+          }else{
+            var minutes = Math.round(diff / 60);
+          }
+          last = time;
+          
+          $("#log_table").append("<tr><td>"+
+            //Contraction Logged</td><td>"+
+            entry+"</td><td>"+
+            minutes+"</td><td>"+
+            "<span index='"+i+"' class='remove glyphicon glyphicon-remove-sign' style='color:red;font-size: 2em'></span></td><td>"+
+            "</tr>");
+        };
+
+    
+        //remove entries
+
+        $(".remove").on('click',function(){
+          removeIndex = $(this).attr('index');
+          var msg = log[removeIndex];
+          $("#removeMsg").html(msg);
+          $('#removeModal').modal('show');
+        });
+
+        $("#delete").on('click',function(){
+          log.splice(removeIndex,1);
+          console.log(log);
+          localStorage['labor'] = JSON.stringify(log);
+          //update();
+          location.reload();
+        })
+
+      }
     });
-
-    function update(){
-      var last = 0;
-      $("#log_table").html("");
-      for(var i=0;i<log.length;i++){
-        var entry = log[i];
-        var date = new Date(entry);
-        var time = date.getTime();
-        var diff = (time - last) / 1000;
-        if(last == 0){
-          var minutes = "First Entry";
-        }else{
-          var minutes = Math.round(diff / 60);
-        }
-        last = time;
-        
-        $("#log_table").append("<tr><td>"+
-          //Contraction Logged</td><td>"+
-          entry+"</td><td>"+
-          minutes+"</td><td>"+
-          "<span index='"+i+"' class='remove glyphicon glyphicon-remove-sign' style='color:red;font-size: 2em'></span></td><td>"+
-          "</tr>");
-      };
-
-  
-      //remove entries
-/*
-      var removeIndex;
-      $(".remove").click(function(){
-        removeIndex = $(this).attr('index');
-        var msg = log[removeIndex];
-        $("#removeMsg").html(msg);
-        $('#removeModal').modal('show');
-      });
-
-      $("#delete").click(function(){
-        console.log(removeIndex);
-        console.log(log);
-        log.splice(removeIndex, 1);
-        //localStorage['labor'] = JSON.stringify(log);
-        update();
-      })
-*/
-    }
   </script>
 </head>
 <body> 
