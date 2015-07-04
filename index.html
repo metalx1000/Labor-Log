@@ -95,13 +95,16 @@
         len = 0;
       }
 
+      $("#info").html("Displaying " + logLength + " of " + log.length + " Entries");
       for(var i=len;i<log.length;i++){
         var entry = log[i];
         var date = new Date(entry);
         var time = date.getTime();
         var diff = (time - last) / 1000;
-        if(last == 0){
+        if(last == 0 && logLength == log.length){
           var minutes = "First Entry";
+        }else if(last == 0 ){
+          var minutes = "Previous Entries Not Shown";
         }else{
           var minutes = Math.round(diff / 60);
         }
@@ -139,7 +142,8 @@
 
 <div class="container">
   <h2>Labor Log</h2>
-  <p>Click below to log contraction times</p>            
+  <!--<p>Click below to log contraction times</p>            -->
+  <p id="info"></p>
   <button id="add_btn" type="button" class="btn btn-primary btn-block btn-lg">Add Contraction Time</button>
   <table class="table table-striped">
     <thead>
