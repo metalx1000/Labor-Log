@@ -113,6 +113,7 @@
 
         last = time;
         date = date.toUTCString();
+        date = new Date(date);
         $("#log_table").append("<tr><td>"+
           //Contraction Logged</td><td>"+
           date+"</td><td>"+
