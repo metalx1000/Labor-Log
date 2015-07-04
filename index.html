@@ -32,6 +32,7 @@
   <meta name="theme-color" content="#ffffff">
   <script>
     var log;
+    var tmplog;
     var removeIndex;
 
     $(document).ready(function(){
@@ -44,55 +45,83 @@
       $("#add_btn").click(function(){
         log.push(Date());
         localStorage['labor'] = JSON.stringify(log);
-        location.reload();
-        //update();
+        //location.reload();
+        update();
       });
 
       update();
 
-      function update(){
-        var last = 0;
-        $("#log_table").html("");
-        for(var i=0;i<log.length;i++){
-          var entry = log[i];
-          var date = new Date(entry);
-          var time = date.getTime();
-          var diff = (time - last) / 1000;
-          if(last == 0){
-            var minutes = "First Entry";
-          }else{
-            var minutes = Math.round(diff / 60);
-          }
-          last = time;
-          
-          $("#log_table").append("<tr><td>"+
-            //Contraction Logged</td><td>"+
-            entry+"</td><td>"+
-            minutes+"</td><td>"+
-            "<span index='"+i+"' class='remove glyphicon glyphicon-remove-sign' style='color:red;font-size: 2em'></span></td><td>"+
-            "</tr>");
-        };
+      //remove entries
 
-    
-        //remove entries
+      $("#log_table").on('click','.remove',function(){
+        removeIndex = $(this).attr('index');
+        var msg = log[removeIndex];
+        $("#removeMsg").html(msg);
+        $('#removeModal').modal('show');
+      });
 
-        $(".remove").on('click',function(){
-          removeIndex = $(this).attr('index');
-          var msg = log[removeIndex];
-          $("#removeMsg").html(msg);
-          $('#removeModal').modal('show');
-        });
+      $("#delete").on('click',function(){
+        log.splice(removeIndex,1);
+        localStorage['labor'] = JSON.stringify(log);
+        update();
+        //location.reload();
+      })
 
-        $("#delete").on('click',function(){
-          log.splice(removeIndex,1);
-          console.log(log);
-          localStorage['labor'] = JSON.stringify(log);
-          //update();
-          location.reload();
-        })
-
-      }
     });
+
+    function fixTime(){
+      tmplog = [];
+      for(var i=0;i<log.length;i++){
+        var time = new Date(log[i]); 
+        time = time.getTime();
+        tmplog.push(time);
+      } 
+      log = tmplog;
+      log = log.sort();
+    }
+
+    function update(){
+      fixTime();
+      var last = 0;
+      $("#log_table").html("");
+      if(log.length > 20){
+        len = log.length - 20;
+      }else{
+        len = 0;
+      }
+
+      for(var i=len;i<log.length;i++){
+        var entry = log[i];
+        var date = new Date(entry);
+        var time = date.getTime();
+        var diff = (time - last) / 1000;
+        if(last == 0){
+          var minutes = "First Entry";
+        }else{
+          var minutes = Math.round(diff / 60);
+        }
+
+        if(minutes > 86400){
+          minutes = "More than 24 hours";
+        }else if(minutes > 60){
+          minutes = "More than an hour";
+        }else if(minutes < 6){
+          minutes = "<a style='font-weight: bold' class='text-danger'>" + minutes + "</a>";
+        }else if(minutes < 10){
+          minutes = "<a style='font-weight: bold'>" + minutes + "</a>";
+        }
+
+        last = time;
+        date = date.toUTCString();
+        $("#log_table").append("<tr><td>"+
+          //Contraction Logged</td><td>"+
+          date+"</td><td>"+
+          minutes+"</td><td>"+
+        "<span index='"+i+"' class='remove glyphicon glyphicon-remove-sign' style='color:red;font-size: 2em'></span></td><td>"+
+        "</tr>");
+      }
+    }
+
   </script>
 </head>
 <body> 
