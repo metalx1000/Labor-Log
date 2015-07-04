@@ -34,6 +34,7 @@
     var log;
     var tmplog;
     var removeIndex;
+    var logLength = 10;
 
     $(document).ready(function(){
       if(localStorage.labor){
@@ -67,6 +68,10 @@
         //location.reload();
       })
 
+      $("#all_btn").click(function(){
+        logLength = log.length;
+        update();
+      });
     });
 
     function fixTime(){
@@ -84,8 +89,8 @@
       fixTime();
       var last = 0;
       $("#log_table").html("");
-      if(log.length > 20){
-        len = log.length - 20;
+      if(log.length > logLength){
+        len = log.length - logLength;
       }else{
         len = 0;
       }
@@ -101,19 +106,22 @@
           var minutes = Math.round(diff / 60);
         }
 
+        last = time;
+        date = date.toUTCString();
+        date = new Date(date);
+
         if(minutes > 86400){
           minutes = "More than 24 hours";
         }else if(minutes > 60){
           minutes = "More than an hour";
         }else if(minutes < 6){
+          date = "<a style='font-weight: bold' class='text-danger'>" + date + "</a>";
           minutes = "<a style='font-weight: bold' class='text-danger'>" + minutes + "</a>";
         }else if(minutes < 10){
+          date = "<a style='font-weight: bold'>" + date + "</a>";
           minutes = "<a style='font-weight: bold'>" + minutes + "</a>";
         }
 
-        last = time;
-        date = date.toUTCString();
-        date = new Date(date);
         $("#log_table").append("<tr><td>"+
           //Contraction Logged</td><td>"+
           date+"</td><td>"+
@@ -121,6 +129,8 @@
         "<span index='"+i+"' class='remove glyphicon glyphicon-remove-sign' style='color:red;font-size: 2em'></span></td><td>"+
         "</tr>");
       }
+
+      logLength = 10;
     }
 
   </script>
@@ -144,7 +154,10 @@
     </tbody>
   </table>
   <hr>
-  <p>Time since last contraction is rounded to nearest minute</p>            
+  <p>Time since last contraction is rounded to nearest minute</p>           
+  <p style='font-weight: bold' class='text-primary'>Blue Bold Text = Contractions Under 10 Minutes</p> 
+  <p style='font-weight: bold' class='text-danger'>Red Bold Text = Contractions 5 Minutes Or Less Apart</p> 
+  <button id="all_btn" type="button" class="btn btn-primary btn-block btn-lg">View All Entries</button>
 </div>
 
 <!-- Modal -->
