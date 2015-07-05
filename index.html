@@ -164,7 +164,8 @@
   <button id="all_btn" type="button" class="btn btn-primary btn-block btn-lg">View All Entries</button>
 </div>
 
-<!-- Modal -->
+<!-- Modals-->
+<!--Removel Confirm-->
 <div id="removeModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -179,6 +180,29 @@
       </div>
       <div class="modal-footer">
         <button id="delete" type="button" class="btn btn-danger" data-dismiss="modal">Delete Entry</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!--Manual Enter-->
+<div id="timeEnter" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please Entery Time of Contraction</h4>
+      </div>
+      <div class="modal-body">
+        <p id="timeMsg"></p>
+      </div>
+      <div class="modal-footer">
+        <button id="addTime" type="button" class="btn btn-default" data-dismiss="modal">Add Time</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
