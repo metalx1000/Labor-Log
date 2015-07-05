@@ -107,11 +107,13 @@
       $("#log_table").html("");
       if(log.length > logLength){
         len = log.length - logLength;
+        shown = logLength;
       }else{
         len = 0;
+        shown = log.length;
       }
 
-      $("#info").html("Displaying " + logLength + " of " + log.length + " Entries");
+      $("#info").html("Displaying " + shown + " of " + log.length + " Entries");
       for(var i=len;i<log.length;i++){
         var entry = log[i];
         var date = new Date(entry);
