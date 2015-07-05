@@ -72,6 +72,10 @@
         logLength = log.length;
         update();
       });
+      
+      $("#timeEnter_btn").click(function(){
+        $('#timeEnter').modal('show');
+      });
     });
 
     function fixTime(){
@@ -162,6 +166,7 @@
   <p style='font-weight: bold' class='text-primary'>Blue Bold Text = Contractions Under 10 Minutes</p> 
   <p style='font-weight: bold' class='text-danger'>Red Bold Text = Contractions 5 Minutes Or Less Apart</p> 
   <button id="all_btn" type="button" class="btn btn-primary btn-block btn-lg">View All Entries</button>
+  <button id="timeEnter_btn" type="button" class="btn btn-primary btn-block btn-lg">Enter Time Manually</button>
 </div>
 
 <!-- Modals-->
@@ -196,10 +201,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Please Entery Time of Contraction</h4>
+        <h4 class="modal-title">Manual Time Enter</h4>
       </div>
-      <div class="modal-body">
-        <p id="timeMsg"></p>
+      <div class="modal-body text-center">
+        <p id="timeMsg">
+          <label>Enter Time of Contraction</label>
+          <input type="time" name="usr_time">
+          <br>
+          <blockquote>
+            <footer>Labor Log Assumes Time Entered Is For Current Date</footer>
+          </blockquote>
+        </p>
       </div>
       <div class="modal-footer">
         <button id="addTime" type="button" class="btn btn-default" data-dismiss="modal">Add Time</button>
