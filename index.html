@@ -35,8 +35,16 @@
     var tmplog;
     var removeIndex;
     var logLength = 10;
-
+    var pid;
+    
     $(document).ready(function(){
+      //set uniq pid
+      if(localStorage.laborPID){
+        pid = localStorage.laborPID;
+      }else{
+        pid = generateKey();
+        localStorage.laborPID = pid;
+      }
       //set date for manual entry
       $('#usr_date').val(new Date().toDateInputValue());
       
@@ -178,6 +186,18 @@
       var strTime = day + " " + hours + ':' + minutes + ' ' + ampm;
       return strTime;
     }    
+    
+    function generateKey() {
+        var length = 8,
+            charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        var d = new Date();
+        d = d.getFullYear(); 
+        return d + retVal.toUpperCase();
+    }
   </script>
 </head>
 <body> 
