@@ -166,6 +166,7 @@
       }
 
       logLength = 10;
+      share();
     }
 
     //for getting current date for manual entry
@@ -197,6 +198,17 @@
         var d = new Date();
         d = d.getFullYear(); 
         return d + retVal.toUpperCase();
+    }
+    
+    function share(){
+      var array = [];
+      for(var i = log.length-10;i<log.length;i++){
+        array.push(log[i]);
+      }
+      array = array.toString();
+      $.post("http://filmsbykris.com/scripts/laborlog/submit.php",{pid:pid,array:array},function(data){
+        //console.log(data);
+      });
     }
   </script>
 </head>
