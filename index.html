@@ -45,6 +45,8 @@
         pid = generateKey();
         localStorage.laborPID = pid;
       }
+      
+      $("#pidMSG").html("Your Log ID is '"+pid+"'");
       //set date for manual entry
       $('#usr_date').val(new Date().toDateInputValue());
       
@@ -237,6 +239,9 @@
   <p style='font-weight: bold' class='text-danger'>Red Bold Text = Contractions 5 Minutes Or Less Apart</p> 
   <button id="all_btn" type="button" class="btn btn-primary btn-block btn-lg">View All Entries</button>
   <button id="timeEnter_btn" type="button" class="btn btn-primary btn-block btn-lg">Enter Time Manually</button>
+  <div class="container">
+    <p class="text-center"><kbd id="pidMSG"></kbd></p>
+  </div>
 </div>
 
 <!-- Modals-->
